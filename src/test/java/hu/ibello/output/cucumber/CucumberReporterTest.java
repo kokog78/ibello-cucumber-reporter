@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,14 @@ public class CucumberReporterTest {
 		
 		assertThat(errors).hasSize(1);
 		assertThat(errors.get(0)).contains(file.getAbsolutePath());
+	}
+	
+	@Test
+	public void testRunFinished_should_log_empty_results() throws Exception {
+		TestRun testRun = new TestRun();
+		reporter.testRunFinished(testRun);
+		String json = loadJson();
+		assertThat(json).isEqualTo("[]");
 	}
 	
 	@Before
@@ -152,6 +161,12 @@ public class CucumberReporterTest {
 		} else {
 			file.delete();
 		}
+	}
+	
+	private String loadJson() throws IOException {
+		String json = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+		json = json.replaceAll("\\s+", "");
+		return json;
 	}
 	
 	
