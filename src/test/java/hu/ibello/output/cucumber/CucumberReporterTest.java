@@ -1,6 +1,7 @@
 package hu.ibello.output.cucumber;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.registerCustomDateFormat;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class CucumberReporterTest {
 	private CucumberReporter reporter;
 	private File file;
 	private List<String> errors;
-	
+	// tear down commented!!!
 	@Test
 	public void testRunFinished_should_log_error_if_file_cannot_be_written() throws Exception {
 		// make the file non-writable
@@ -59,7 +60,16 @@ public class CucumberReporterTest {
 		String json = loadJson();
 		assertThat(json).isEqualTo("[]");
 	}
-	
+
+	@Test
+	public void testRunFinished_() throws Exception {
+		TestRun testRun;
+		testRun = reporter.testRunMockDataCreator();
+		reporter.testRunFinished(testRun);
+		String json = loadJson();
+	}
+
+
 	@Before
 	public void init() throws IOException, PluginException {
 		errors = new ArrayList<>();
@@ -156,11 +166,11 @@ public class CucumberReporterTest {
 	
 	@After
 	public void teardown() throws IOException {
-		if (file.isDirectory()) {
+		/*if (file.isDirectory()) {
 			FileUtils.deleteDirectory(file);
 		} else {
 			file.delete();
-		}
+		}*/
 	}
 	
 	private String loadJson() throws IOException {
@@ -168,6 +178,4 @@ public class CucumberReporterTest {
 		json = json.replaceAll("\\s+", "");
 		return json;
 	}
-	
-	
 }
