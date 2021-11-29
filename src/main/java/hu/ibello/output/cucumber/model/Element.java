@@ -1,5 +1,8 @@
 package hu.ibello.output.cucumber.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Element {
 
     private String keyword;
@@ -7,8 +10,8 @@ public class Element {
     private String id;
     private int line;
     private String name;
-    private Tag[] tags;
-    private Step[] steps;
+    private List<Tag> tags;
+    private List<Step> steps;
 
     public String getKeyword() {
         return keyword;
@@ -52,25 +55,23 @@ public class Element {
 
     public void addTag(Tag tag) {
         if (tags == null) {
-            tags[0] = tag;
-            return;
+            tags = new ArrayList<>();
         }
-        tags[tags.length] = tag;
+        tags.add(tag);
     }
 
     public void addStep(Step step) {
         if (steps == null) {
-            steps[0] = step;
-            return;
+            steps = new ArrayList<>();
         }
-        steps[steps.length] = step;
+        steps.add(step);
     }
 
-    public Tag[] getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public Step[] getSteps() {
+    public List<Step> getSteps() {
         return steps;
     }
 

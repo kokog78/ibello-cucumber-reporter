@@ -1,12 +1,15 @@
 package hu.ibello.output.cucumber.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CucumberFeature {
 
     private String uri;
     private String keyword;
     private String name;
-    private Tag[] tags;
-    private Element[] elements;
+    private List<Tag> tags;
+    private List<Element> elements;
 
     public String getUri() {
         return uri;
@@ -34,25 +37,23 @@ public class CucumberFeature {
 
     public void addTag(Tag tag) {
         if (tags == null) {
-            tags[0] = tag;
-            return;
+            tags = new ArrayList<>();
         }
-        tags[tags.length] = tag;
+        tags.add(tag);
     }
 
     public void addElement(Element element) {
         if (elements == null) {
-            elements[0] = element;
-            return;
+            elements = new ArrayList<>();
         }
-        elements[elements.length] = element;
+        elements.add(element);
     }
 
-    public Tag[] getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public Element[] getElements() {
+    public List<Element> getElements() {
         return elements;
     }
 }
