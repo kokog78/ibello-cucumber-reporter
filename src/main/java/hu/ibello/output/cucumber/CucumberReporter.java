@@ -1,5 +1,6 @@
 package hu.ibello.output.cucumber;
 
+import hu.ibello.core.TestException;
 import hu.ibello.model.BrowserKind;
 import hu.ibello.model.Counters;
 import hu.ibello.model.LogFile;
@@ -87,20 +88,17 @@ public class CucumberReporter implements IbelloReporter {
 	
 	private List<CucumberFeature> toFeatures(TestRun tests) {
 		List<CucumberFeature> features = new ArrayList<>();
-
-		if(tests.getSpec() == null || tests.getSpec().isEmpty()) {
-			return features;
-		}else{
+		if (!tests.getSpec().isEmpty()) {
 			List<SpecElement> specElementList = tests.getSpec();   //spec -> feature
 			for (int i = 0; i < specElementList.size(); i++) {
-				features.add( specElementToCucumberFeature(specElementList.get(i)));
+				features.add(specElementToCucumberFeature(specElementList.get(i)));
 			}
 		}
+		return features;
 		// TODO Antal: lista feltöltése
 		// spec -> feature
 		// test -> scenario
 		// step -> step
-	return features;
 	}
 
 	private CucumberFeature specElementToCucumberFeature(SpecElement specElement) {
@@ -120,9 +118,13 @@ public class CucumberReporter implements IbelloReporter {
 
 	private Element elementConverterFromTestElement(TestElement testElement) {
 		Element element = new Element();
-		for (int i = 0; i < testElement.getStep().size(); i++) {
-			Step step = stepConverterFromStepElement (testElement.getStep().get(i));
-			element.addStep(step);
+		if(testElement.getStep().isEmpty()){
+			element.setName("testElement isEmpty!!");
+			// should return empty
+		}else {
+			for (int i = 0; i < testElement.getStep().size(); i++) {
+				Step step = stepConverterFromStepElement(testElement.getStep().get(i));
+				element.addStep(step);
 			/*
 				private String keyword;
 				private String type;
@@ -131,6 +133,8 @@ public class CucumberReporter implements IbelloReporter {
 				private String name;
 				private Tag[] tags;
 		 */
+			}
+
 		}
 		return element;
 	}
@@ -159,6 +163,8 @@ public class CucumberReporter implements IbelloReporter {
 		return step;
 	}
 	private Status outcomeToStatus (Outcome outcome) {
+		if(outcome == null) {
+		}else{
 		switch (outcome) {
 			case SUCCESS:
 				return Status.PASSED;
@@ -169,9 +175,12 @@ public class CucumberReporter implements IbelloReporter {
 			case ERROR:
 				return Status.FAILED;																																														//error?
 		}
+			}
 		return Status.FAILED;
 	}
+}
 
+/*
 	public TestRun testRunMockDataCreator () {
 		TestRun mockTestRun = new TestRun();
 		Date mockStartTime = new Date(1984);
@@ -215,8 +224,5 @@ public class CucumberReporter implements IbelloReporter {
 		/*
 		private List<SpecElement> spec;
 		private List<MemoryUsage> memoryUsage;
-		*/
 		return mockTestRun;
-	}
-
-}
+		*/

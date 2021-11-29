@@ -1,8 +1,13 @@
 package hu.ibello.output.cucumber;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.registerCustomDateFormat;
 
+import hu.ibello.model.Element;
+import hu.ibello.model.ExceptionInfo;
+import hu.ibello.model.Outcome;
+import hu.ibello.model.SpecElement;
+import hu.ibello.model.StepElement;
+import hu.ibello.model.TestElement;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -37,7 +42,7 @@ public class CucumberReporterTest {
 	private CucumberReporter reporter;
 	private File file;
 	private List<String> errors;
-	// tear down commented!!!
+
 	@Test
 	public void testRunFinished_should_log_error_if_file_cannot_be_written() throws Exception {
 		// make the file non-writable
@@ -62,12 +67,231 @@ public class CucumberReporterTest {
 	}
 
 	@Test
-	public void testRunFinished_() throws Exception {
-		TestRun testRun;
-		testRun = reporter.testRunMockDataCreator();
+	public void testRunFinished_test_with_no_data_should_log_empty_results() throws Exception {
+		TestRun testRun = new TestRun();
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
+		assertThat(json).isEqualTo("[]");
 	}
+	@Test
+	public void testRunFinished_test_with_one_empty_spec_element_should_log_two_brackets() throws Exception {
+		TestRun testRun = new TestRun();
+		List<SpecElement> specElements = new ArrayList<>();
+		SpecElement specElement = new SpecElement();
+		specElements.add(specElement);
+		testRun.setSpec(specElements);
+		reporter.testRunFinished(testRun);
+		String json = loadJson();
+		assertThat(json).isEqualTo("[{}]");
+	}
+
+	@Test
+	public void testRunFinished_test_with_one_empty_test_element_should_log_well() throws Exception {
+		TestRun testRun = new TestRun();
+		List<SpecElement> specElements = new ArrayList<>();
+		SpecElement specElement = new SpecElement();
+		List<TestElement> testElements = new ArrayList<>();
+		TestElement testElement = new TestElement();
+		testElements.add(testElement);
+		specElement.setTest(testElements);
+		specElements.add(specElement);
+		testRun.setSpec(specElements);
+		reporter.testRunFinished(testRun);
+		String json = loadJson();
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"name\":\"testElementisEmpty!!\"}]}]");
+	}
+
+	@Test
+	public void testRunFinished_test_with_one_empty_step_element_should_log_well() throws Exception {
+		TestRun testRun = new TestRun();
+		List<SpecElement> specElements = new ArrayList<>();
+		SpecElement specElement = new SpecElement();
+		List<TestElement> testElements = new ArrayList<>();
+		TestElement testElement = new TestElement();
+		StepElement stepElement = new StepElement();
+		List<StepElement> stepElements = new ArrayList<>();
+		stepElements.add(stepElement);
+		testElement.setStep(stepElements);
+		testElements.add(testElement);
+		specElement.setTest(testElements);
+		specElements.add(specElement);
+		testRun.setSpec(specElements);
+		reporter.testRunFinished(testRun);
+		String json = loadJson();
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"line\":0}]}]}]");
+	}
+	@Test
+	public void testRunFinished_test_with_one_step_element_and_one_children_should_log_well() throws Exception {
+		TestRun testRun = new TestRun();
+		List<SpecElement> specElements = new ArrayList<>();
+		SpecElement specElement = new SpecElement();
+		List<TestElement> testElements = new ArrayList<>();
+		TestElement testElement = new TestElement();
+		StepElement stepElement = new StepElement();
+		List<Element> children = new ArrayList<>();
+		children.add(new Element());
+		stepElement.setChildren(children);
+		List<StepElement> stepElements = new ArrayList<>();
+		stepElements.add(stepElement);
+		testElement.setStep(stepElements);
+		testElements.add(testElement);
+		specElement.setTest(testElements);
+		specElements.add(specElement);
+		testRun.setSpec(specElements);
+		reporter.testRunFinished(testRun);
+		String json = loadJson();
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+	}
+	@Test
+	public void testRunFinished_test_with_one_step_element_with_duration_should_log_well() throws Exception {
+		TestRun testRun = new TestRun();
+		List<SpecElement> specElements = new ArrayList<>();
+		SpecElement specElement = new SpecElement();
+		List<TestElement> testElements = new ArrayList<>();
+		TestElement testElement = new TestElement();
+		StepElement stepElement = new StepElement();
+		List<Element> children = new ArrayList<>();
+		Element element = new Element();
+		element.setDurationMs(10000);
+		children.add(element);
+		stepElement.setChildren(children);
+		List<StepElement> stepElements = new ArrayList<>();
+		stepElements.add(stepElement);
+		testElement.setStep(stepElements);
+		testElements.add(testElement);
+		specElement.setTest(testElements);
+		specElements.add(specElement);
+		testRun.setSpec(specElements);
+		reporter.testRunFinished(testRun);
+		String json = loadJson();
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":10000.0,\"error_message\":\"\"}}]}]}]");
+	}
+	@Test
+	public void testRunFinished_test_with_one_step_element_with_outcome_passed_should_log_well() throws Exception {
+		TestRun testRun = new TestRun();
+		List<SpecElement> specElements = new ArrayList<>();
+		SpecElement specElement = new SpecElement();
+		List<TestElement> testElements = new ArrayList<>();
+		TestElement testElement = new TestElement();
+		StepElement stepElement = new StepElement();
+		List<Element> children = new ArrayList<>();
+		Element element = new Element();
+		element.setOutcome(Outcome.SUCCESS);
+		children.add(element);
+		stepElement.setChildren(children);
+		List<StepElement> stepElements = new ArrayList<>();
+		stepElements.add(stepElement);
+		testElement.setStep(stepElements);
+		testElements.add(testElement);
+		specElement.setTest(testElements);
+		specElements.add(specElement);
+		testRun.setSpec(specElements);
+		reporter.testRunFinished(testRun);
+		String json = loadJson();
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"PASSED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+	}
+	@Test
+	public void testRunFinished_test_with_one_step_element_with_outcome_pending_should_log_well() throws Exception {
+		TestRun testRun = new TestRun();
+		List<SpecElement> specElements = new ArrayList<>();
+		SpecElement specElement = new SpecElement();
+		List<TestElement> testElements = new ArrayList<>();
+		TestElement testElement = new TestElement();
+		StepElement stepElement = new StepElement();
+		List<Element> children = new ArrayList<>();
+		Element element = new Element();
+		element.setOutcome(Outcome.PENDING);
+		children.add(element);
+		stepElement.setChildren(children);
+		List<StepElement> stepElements = new ArrayList<>();
+		stepElements.add(stepElement);
+		testElement.setStep(stepElements);
+		testElements.add(testElement);
+		specElement.setTest(testElements);
+		specElements.add(specElement);
+		testRun.setSpec(specElements);
+		reporter.testRunFinished(testRun);
+		String json = loadJson();
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"PENDING\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+	}
+	@Test
+	public void testRunFinished_test_with_one_step_element_with_outcome_failure_should_log_well() throws Exception {
+		TestRun testRun = new TestRun();
+		List<SpecElement> specElements = new ArrayList<>();
+		SpecElement specElement = new SpecElement();
+		List<TestElement> testElements = new ArrayList<>();
+		TestElement testElement = new TestElement();
+		StepElement stepElement = new StepElement();
+		List<Element> children = new ArrayList<>();
+		Element element = new Element();
+		element.setOutcome(Outcome.FAILURE);
+		children.add(element);
+		stepElement.setChildren(children);
+		List<StepElement> stepElements = new ArrayList<>();
+		stepElements.add(stepElement);
+		testElement.setStep(stepElements);
+		testElements.add(testElement);
+		specElement.setTest(testElements);
+		specElements.add(specElement);
+		testRun.setSpec(specElements);
+		reporter.testRunFinished(testRun);
+		String json = loadJson();
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+	}
+
+	@Test
+	public void testRunFinished_test_with_one_step_element_with_outcome_error_should_log_well() throws Exception {
+		TestRun testRun = new TestRun();
+		List<SpecElement> specElements = new ArrayList<>();
+		SpecElement specElement = new SpecElement();
+		List<TestElement> testElements = new ArrayList<>();
+		TestElement testElement = new TestElement();
+		StepElement stepElement = new StepElement();
+		List<Element> children = new ArrayList<>();
+		Element element = new Element();
+		element.setOutcome(Outcome.ERROR);
+		children.add(element);
+		stepElement.setChildren(children);
+		List<StepElement> stepElements = new ArrayList<>();
+		stepElements.add(stepElement);
+		testElement.setStep(stepElements);
+		testElements.add(testElement);
+		specElement.setTest(testElements);
+		specElements.add(specElement);
+		testRun.setSpec(specElements);
+		reporter.testRunFinished(testRun);
+		String json = loadJson();
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+	}
+
+	@Test
+	public void testRunFinished_test_with_one_step_element_with_error_message_should_log_well() throws Exception {
+		TestRun testRun = new TestRun();
+		List<SpecElement> specElements = new ArrayList<>();
+		SpecElement specElement = new SpecElement();
+		List<TestElement> testElements = new ArrayList<>();
+		TestElement testElement = new TestElement();
+		StepElement stepElement = new StepElement();
+		List<Element> children = new ArrayList<>();
+		Element element = new Element();
+		List<ExceptionInfo> exceptionList = new ArrayList<>();
+		exceptionList.add(new ExceptionInfo());
+		element.setException(exceptionList);
+		children.add(element);
+		stepElement.setChildren(children);
+		List<StepElement> stepElements = new ArrayList<>();
+		stepElements.add(stepElement);
+		testElement.setStep(stepElements);
+		testElements.add(testElement);
+		specElement.setTest(testElements);
+		specElements.add(specElement);
+		testRun.setSpec(specElements);
+		reporter.testRunFinished(testRun);
+		String json = loadJson();
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"0.errormessage:null\\\\n\"}}]}]}]");
+	}
+
+
 
 
 	@Before
@@ -166,11 +390,11 @@ public class CucumberReporterTest {
 	
 	@After
 	public void teardown() throws IOException {
-		/*if (file.isDirectory()) {
+		if (file.isDirectory()) {
 			FileUtils.deleteDirectory(file);
 		} else {
 			file.delete();
-		}*/
+		}
 	}
 	
 	private String loadJson() throws IOException {
