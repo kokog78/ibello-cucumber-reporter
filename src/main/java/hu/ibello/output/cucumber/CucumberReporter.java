@@ -1,17 +1,5 @@
 package hu.ibello.output.cucumber;
 
-import hu.ibello.core.TestException;
-import hu.ibello.model.BrowserKind;
-import hu.ibello.model.Counters;
-import hu.ibello.model.LogFile;
-import hu.ibello.model.Outcome;
-import hu.ibello.model.StepElement;
-import hu.ibello.model.TestElement;
-import hu.ibello.model.WindowSize;
-import hu.ibello.output.cucumber.model.Element;
-import hu.ibello.output.cucumber.model.Result;
-import hu.ibello.output.cucumber.model.Status;
-import hu.ibello.output.cucumber.model.Step;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -20,15 +8,21 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import hu.ibello.inject.Injectable;
 import hu.ibello.inject.Scope;
 import hu.ibello.model.ITestRun;
+import hu.ibello.model.Outcome;
 import hu.ibello.model.SpecElement;
+import hu.ibello.model.StepElement;
+import hu.ibello.model.TestElement;
 import hu.ibello.model.TestRun;
 import hu.ibello.output.cucumber.model.CucumberFeature;
+import hu.ibello.output.cucumber.model.Element;
+import hu.ibello.output.cucumber.model.Result;
+import hu.ibello.output.cucumber.model.Status;
+import hu.ibello.output.cucumber.model.Step;
 import hu.ibello.plugins.IbelloReporter;
 import hu.ibello.plugins.PluginException;
 import hu.ibello.plugins.PluginInitializer;
@@ -40,6 +34,10 @@ public class CucumberReporter implements IbelloReporter {
 	private final static String RESULTS_DIR = "ibello.dir.results";
 	
 	private PluginInitializer initializer;
+	
+	static {
+		System.out.println("*************** AZ OSZTÁLYT VALAKI LEKÉRDEZTE *********************");
+	}
 
 	@Override
 	public void initialize(PluginInitializer initializer) throws PluginException {
