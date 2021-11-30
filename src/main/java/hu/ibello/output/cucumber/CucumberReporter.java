@@ -58,6 +58,7 @@ public class CucumberReporter implements IbelloReporter {
 
 	@Override
 	public void testRunFinished(TestRun tests) {
+		System.out.println("*************** 61-ES SOR LEFUT E??*********************");
 		List<CucumberFeature> features = toFeatures(tests);
 		File file = getReportFile();
 		try {
