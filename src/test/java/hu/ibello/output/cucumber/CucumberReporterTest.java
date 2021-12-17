@@ -140,7 +140,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
 	}
 	@Test
 	public void testRunFinished_test_with_one_step_element_with_duration_should_log_well() throws Exception {
@@ -164,7 +164,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":10000.0,\"error_message\":\"\"}}]}]}]");
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":10000.0,\"error_message\":\"\"}}]}]}]");
 	}
 	@Test
 	public void testRunFinished_test_with_one_step_element_with_outcome_passed_should_log_well() throws Exception {
@@ -188,7 +188,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"PASSED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"PASSED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
 	}
 	@Test
 	public void testRunFinished_test_with_one_step_element_with_outcome_pending_should_log_well() throws Exception {
@@ -212,7 +212,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"PENDING\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"PENDING\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
 	}
 	@Test
 	public void testRunFinished_test_with_one_step_element_with_outcome_failure_should_log_well() throws Exception {
@@ -236,7 +236,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
 	}
 
 	@Test
@@ -261,7 +261,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
 	}
 
 	@Test
@@ -288,7 +288,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"keeeeeeyword\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"0.errormessage:null\\\\n\"}}]}]}]");
+		assertThat(json).isEqualTo("[{\"elements\":[{\"line\":0,\"steps\":[{\"keyword\":\"\",\"line\":0,\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"0.errormessage:null\\\\n\"}}]}]}]");
 	}
 
 
