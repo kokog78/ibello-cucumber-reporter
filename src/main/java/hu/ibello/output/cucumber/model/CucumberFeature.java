@@ -50,6 +50,9 @@ public class CucumberFeature {
     }
 
     public List<Tag> getTags() {
+        if (tags == null) {
+            tags = new ArrayList<>();
+        }
         return tags;
     }
 
