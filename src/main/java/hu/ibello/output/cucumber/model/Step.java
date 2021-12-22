@@ -3,7 +3,7 @@ package hu.ibello.output.cucumber.model;
 public class Step {
 
     private String keyword;
-    private int line;
+    private Integer line;
     private String name;
     private Boolean hidden;
     private Result result;
@@ -16,7 +16,7 @@ public class Step {
         this.keyword = keyword;
     }
 
-    public int getLine() {
+    public Integer getLine() {
         return line;
     }
 
