@@ -143,6 +143,7 @@ public class CucumberReporter implements IbelloReporter {
 						errorMessage += i + ". error message : " + stepElement.getException().get(i).getTitle()+" " + "\n";
 					}
 				}
+				// TODO here the error message is always set even if there is no error in the step; this is wrong, set the error message only if there was an error
 				result.setError_message(errorMessage);
 				step.setResult(result);
 				step.setName(stepElement.getName());
