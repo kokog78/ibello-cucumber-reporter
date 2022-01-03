@@ -84,7 +84,7 @@ public class CucumberReporter implements IbelloReporter {
 	
 	private List<CucumberFeature> toFeatures(TestRun tests) {
 		List<CucumberFeature> features = new ArrayList<>();
-		// TODO this condition throws NullPointerException is the tests.getSpec() is null
+		// TODO this condition throws NullPointerException is the tests.getSpec() is null; on the other side, this list cannot be null - see the getSpec() method!
 		if (!tests.getSpec().isEmpty() || tests.getSpec() != null) {
 			List<SpecElement> specElementList = tests.getSpec();
 			for (int i = 0; i < specElementList.size(); i++) {
@@ -113,7 +113,8 @@ public class CucumberReporter implements IbelloReporter {
 
 	private Element elementConverterFromTestElement(TestElement testElement) {
 		Element element = new Element();
-		// TODO this condition throws NullPointerException is the testElement.getStep() is null
+		// TODO this entire if-else branch is wrong, it is possible that a test does not have any steps but it has a name and id
+		// TODO this condition throws NullPointerException is the testElement.getStep() is null; on the other side, this list cannot be null - see the getStep() method!
 		if (testElement.getStep().isEmpty() || testElement.getStep() == null) {
 			// TODO this message is awkward, use an English sentence
 			element.setName("testElement isEmpty!!");
@@ -136,6 +137,7 @@ public class CucumberReporter implements IbelloReporter {
 				result.setDuration((double) stepElement.getDurationMs());
 				result.setStatus(outcomeToStatus(stepElement.getOutcome()));
 				String errorMessage = "";
+				// TODO the stepElement.getException() cannot be null, see the getException() method
 				if(stepElement.getException() != null || stepElement.getException().isEmpty()){
 					for (int i = 0; i < stepElement.getException().size(); i++) {
 						errorMessage += i + ". error message : " + stepElement.getException().get(i).getTitle()+" " + "\n";
