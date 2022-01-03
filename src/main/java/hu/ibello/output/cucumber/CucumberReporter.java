@@ -84,6 +84,7 @@ public class CucumberReporter implements IbelloReporter {
 	
 	private List<CucumberFeature> toFeatures(TestRun tests) {
 		List<CucumberFeature> features = new ArrayList<>();
+		// TODO this condition throws NullPointerException is the tests.getSpec() is null
 		if (!tests.getSpec().isEmpty() || tests.getSpec() != null) {
 			List<SpecElement> specElementList = tests.getSpec();
 			for (int i = 0; i < specElementList.size(); i++) {
@@ -112,7 +113,9 @@ public class CucumberReporter implements IbelloReporter {
 
 	private Element elementConverterFromTestElement(TestElement testElement) {
 		Element element = new Element();
+		// TODO this condition throws NullPointerException is the testElement.getStep() is null
 		if (testElement.getStep().isEmpty() || testElement.getStep() == null) {
+			// TODO this message is awkward, use an English sentence
 			element.setName("testElement isEmpty!!");
 		} else {
 			for (int i = 0; i < testElement.getStep().size(); i++) {
