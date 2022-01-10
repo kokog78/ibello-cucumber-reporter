@@ -125,7 +125,6 @@ public class CucumberReporterTest {
 		testRun.getSpec().add(specElement);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		System.out.print(json);
 		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0,\"steps\":[{\"keyword\":\"*\",\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"0.errormessage:Attempttomoverobotfrom(0,2)tooccupiedlocation(0,3):\\n1.errormessage:Attempttomoverobotfrom(1,2)tooccupiedlocation(1,3):\\n2.errormessage:Attempttomoverobotfrom(2,2)tooccupiedlocation(2,3):\\n3.errormessage:Attempttomoverobotfrom(3,2)tooccupiedlocation(3,3):\\n4.errormessage:Attempttomoverobotfrom(4,2)tooccupiedlocation(4,3):\\n\"}}]}]}]");
 	}
 
@@ -142,7 +141,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"elements\":[{\"line\":0,\"name\":\"testElementisEmpty!!\"}]}]");
+		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0}]}]");
 	}
 
 	@Test
@@ -166,7 +165,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"name\":\"SpecElement\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0,\"name\":\"TestElement\",\"steps\":[{\"keyword\":\"*\",\"hidden\":false,\"result\":{\"status\":\"PENDING\",\"duration\":12345.0,\"error_message\":\"\"}}]}]}]");
+		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"name\":\"SpecElement\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0,\"name\":\"TestElement\",\"steps\":[{\"keyword\":\"*\",\"hidden\":false,\"result\":{\"status\":\"PENDING\",\"duration\":12345.0}}]}]}]");
 	}
 
 	@Test
@@ -189,7 +188,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"name\":\"SpecElement\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0,\"name\":\"TestElement\",\"steps\":[{\"keyword\":\"*\",\"hidden\":false,\"result\":{\"status\":\"PASSED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"name\":\"SpecElement\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0,\"name\":\"TestElement\",\"steps\":[{\"keyword\":\"*\",\"hidden\":false,\"result\":{\"status\":\"PASSED\",\"duration\":0.0}}]}]}]");
 	}
 
 	@Test
@@ -212,7 +211,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"name\":\"SpecElement\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0,\"name\":\"TestElement\",\"steps\":[{\"keyword\":\"*\",\"hidden\":false,\"result\":{\"status\":\"PENDING\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"name\":\"SpecElement\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0,\"name\":\"TestElement\",\"steps\":[{\"keyword\":\"*\",\"hidden\":false,\"result\":{\"status\":\"PENDING\",\"duration\":0.0}}]}]}]");
 	}
 
 	@Test
@@ -235,7 +234,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"name\":\"SpecElement\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0,\"name\":\"TestElement\",\"steps\":[{\"keyword\":\"*\",\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"name\":\"SpecElement\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0,\"name\":\"TestElement\",\"steps\":[{\"keyword\":\"*\",\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0}}]}]}]");
 	}
 
 	@Test
@@ -259,7 +258,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"name\":\"SpecElement\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0,\"name\":\"TestElement\",\"steps\":[{\"keyword\":\"*\",\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"name\":\"SpecElement\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0,\"name\":\"TestElement\",\"steps\":[{\"keyword\":\"*\",\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0}}]}]}]");
 	}
 
 	@Test
@@ -283,7 +282,7 @@ public class CucumberReporterTest {
 		testRun.setSpec(specElements);
 		reporter.testRunFinished(testRun);
 		String json = loadJson();
-		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"name\":\"SpecElement\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0,\"name\":\"TestElement\",\"steps\":[{\"keyword\":\"*\",\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0,\"error_message\":\"\"}}]}]}]");
+		assertThat(json).isEqualTo("[{\"uri\":\"\",\"keyword\":\"Feature\",\"name\":\"SpecElement\",\"elements\":[{\"keyword\":\"Scenario\",\"line\":0,\"name\":\"TestElement\",\"steps\":[{\"keyword\":\"*\",\"hidden\":false,\"result\":{\"status\":\"FAILED\",\"duration\":0.0}}]}]}]");
 	}
 
 
