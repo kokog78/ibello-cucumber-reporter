@@ -95,21 +95,20 @@ public class CucumberReporter implements IbelloReporter {
 
 	private CucumberFeature specElementToCucumberFeature(SpecElement specElement, TestRun tests) {
 		CucumberFeature feature = new CucumberFeature();
-		if (specElement != null) {
+		if (!specElement.getTest().isEmpty()) {
+			feature.setUri("");
+			feature.setName(specElement.getName());
+			feature.setKeyword("Feature");
 			for (int i = 0; i < specElement.getTest().size(); i++) {
 				Element convertedElement = elementConverterFromTestElement(specElement.getTest().get(i));
-				// TODO a feature objektumon miért a ciklusban végzel módosítást? Ráadásul ugyanazt? Csak a ciklust is érintő módosítást végezd ek itt, ami nem érinti a ciklust, azt tedd azon kívülre!
-				feature.setName(specElement.getName());
-				feature.setKeyword("Feature");
 				feature.addElement(convertedElement);
-				feature.setUri("");
 			}
 		}
 		if (!tests.getTag().isEmpty()) {
 			feature.getTags().addAll(createTags(tests.getTag()));
 		}
 		return feature;
-		}
+	}
 
 	private Element elementConverterFromTestElement(TestElement testElement) {
 		Element element = new Element();
@@ -119,37 +118,36 @@ public class CucumberReporter implements IbelloReporter {
 		if (testElement.getId() != null) {
 			element.setId(testElement.getId());
 		}
-		// TODO igazítás
-			element.setKeyword("Scenario");
-			if (!testElement.getStep().isEmpty()) {
-				for (int i = 0; i < testElement.getStep().size(); i++) {
-					Step step = stepElementToStep(testElement.getStep().get(i));
-					element.addStep(step);
-				}
+		element.setKeyword("Scenario");
+		if (!testElement.getStep().isEmpty()) {
+			for (int i = 0; i < testElement.getStep().size(); i++) {
+				Step step = stepElementToStep(testElement.getStep().get(i));
+				element.addStep(step);
 			}
+		}
 		return element;
 	}
 
 	private Step stepElementToStep(StepElement stepElement) {
 		Step step = new Step();
 		if (stepElement != null) {
-				Result result = new Result();
-				result.setDuration((double) stepElement.getDurationMs());
-				result.setStatus(outcomeToStatus(stepElement.getOutcome()));
-				String errorMessage = "";
-				if(!stepElement.getException().isEmpty()){
-					for (int i = 0; i < stepElement.getException().size(); i++) {
-						errorMessage += i + ". error message: " + stepElement.getException().get(i).getTitle()+" " + "\n";
-					}
+			Result result = new Result();
+			result.setDuration((double) stepElement.getDurationMs());
+			result.setStatus(outcomeToStatus(stepElement.getOutcome()));
+			String errorMessage = "";
+			if(!stepElement.getException().isEmpty()){
+				for (int i = 0; i < stepElement.getException().size(); i++) {
+					errorMessage += i + ". error message: " + stepElement.getException().get(i).getTitle()+" " + "\n";
 				}
-				if (!errorMessage.isEmpty()) {
-					result.setError_message(errorMessage);
-				}
-				step.setResult(result);
-				step.setName(stepElement.getName());
-				step.setHidden(false);
-				step.setKeyword("*");
 			}
+			if (!errorMessage.isEmpty()) {
+				result.setError_message(errorMessage);
+			}
+			step.setResult(result);
+			step.setName(stepElement.getName());
+			step.setHidden(false);
+			step.setKeyword("*");
+		}
 		return step;
 	}
 
